@@ -1,0 +1,43 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: cleanup
+spec:
+  steps:
+    - name: remove-venv
+      image: alpine
+      script: |
+        #!/bin/sh
+        rm -rf venv/
+        echo "Cleanup complete"
+
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: nose-tests
+spec:
+  params:
+    - name: PYTHON_VERSION
+      type: string
+      default: "3.12.1"
+  steps:
+    - name: setup-python
+      image: python:$(params.PYTHON_VERSION)-slim
+      script: |
+        #!/bin/sh
+        pip install -r requirements.txt
+        pip install  nose2 
+
+    - name: run-tests
+      image: python:$(params.PYTHON_VERSION)-slim
+      script: |
+        #!/bin/sh
+        nose2 --verbose --coverage app test_main_2
+      volumeMounts:
+        - name: test-results
+          mountPath: /test-results
+
+  volumes:
+    - name: test-results
+      emptyDir: {}

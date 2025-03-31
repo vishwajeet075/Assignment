@@ -1,0 +1,20 @@
+[flake8]
+max-line-length = 88
+ignore = 
+    E203,
+    E302,
+    E305,
+    W293,
+    W292,
+    F401,
+    E303,  
+    E501   
+exclude = 
+    .git,
+    __pycache__,
+    venv,
+    .github,
+    docs
+per-file-ignores =
+    __init__.py:F401
+    test_*.py:F401

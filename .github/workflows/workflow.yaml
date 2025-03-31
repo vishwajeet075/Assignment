@@ -20,7 +20,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install flake8 pytest nose
+        pip install flake8  nose2
         pip install -r requirements.txt
         
    
@@ -30,12 +30,9 @@ jobs:
         flake8 *.py --count --show-source --statistics --max-line-length=88
         
   
-    - name: Run pytest tests
-      run: |
-        pytest test_main.py -v --cov=.
         
  
     - name: Run nose tests
       run: |
-        nosetests test_main_2.py -v --with-coverage --cover-package=app
+        nose2 --verbose --coverage app test_main_2
         

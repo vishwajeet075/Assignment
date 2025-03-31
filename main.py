@@ -3,7 +3,6 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from pydantic import BaseModel
 from typing import Optional, List
 from datetime import datetime, timedelta
-import uuid
 from passlib.context import CryptContext
 from jose import JWTError, jwt
 
@@ -38,13 +37,19 @@ class User(BaseModel):
     email: Optional[str] = None
     full_name: Optional[str] = None
     disabled: Optional[bool] = None
+    
+    
 
 class UserInDB(User):
     hashed_password: str
+    
+    
 
 class Token(BaseModel):
     access_token: str
     token_type: str
+    
+    
 
 class TokenData(BaseModel):
     username: Optional[str] = None
